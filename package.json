@@ -1,0 +1,23 @@
+{
+  "name": "image-lambda",
+  "version": "1.0.0",
+  "description": "AWS lambda function that will be called when a photo is uploaded to an S3 bucket and will save a compressed version to a second s3 bucket",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnneThor/image-lambda.git"
+  },
+  "author": "Anne Thorsteinson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnneThor/image-lambda/issues"
+  },
+  "homepage": "https://github.com/AnneThor/image-lambda#readme",
+  "dependencies": {
+    "aws-sdk": "^2.888.0",
+    "imagemagick": "^0.1.3"
+  }
+}
