@@ -1,21 +1,18 @@
 name: Deploy Lambda
-
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
-  deploy-lambda:
-    if: github.event.pull_request.merged
+  build: 
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - run: zip lambda.zip index.js node_modules
+      - uses: actions/checkout@v1
+      - run: zip lambda.zip file.txt
       - uses: yvesgurcan/deploy-lambda-function
         with:
-          package: lambda.zip
-          function-name: image_lambda
+          package: lambda.zip index.js package.json node_modules
+          function-name: getThumbnail
           AWS_REGION: ${{ secrets.AWS_REGION }}
           AWS_SECRET_ID: ${{ secrets.AWS_SECRET_ID }}
           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
