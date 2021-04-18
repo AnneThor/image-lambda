@@ -1,19 +1,14 @@
-'use strict';
-
 const sharp = require('sharp');
 const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
 
-require('dotenv').config();
+exports.handler = async function (event, context) {
 
-exports.handler = async (event, context) => {
-  if (events.Records[0].eventName !== "ObjectCreated:Put") {
-    return;
-  }
+  const s3 = new AWS.S3();
+  console.log({event});
   // source bucket name
   const BUCKET = event.Records[0].s3.bucket.name;
   // destination bucket name
-  const THUMBNAIL = THORA_THUMBNAIL;
+  const THUMBNAIL = "thora-thumbnails";
   // source image file name
   const KEY = event.Records[0].s3.object.key;
   // Key for destination
@@ -23,17 +18,17 @@ exports.handler = async (event, context) => {
       Bucket: BUCKET,
       Key: KEY
     }).promise();
-    image = await.sharp(image.Body);
-    // const metadata = await image.metadata();
+    image = await sharp(image.Body);
     const thumbnail = await image.resize({width: 200}).toBuffer();
     await s3.putObject({
-      BUCKET: THUMBNAIL,
-      Body: resizedImage,
+      Bucket: THUMBNAIL,
+      Body: thumbnail,
       Key: DEST_KEY
     }).promise();
     return;
   } catch (err) {
-    context fail(`Error resizing image: ${err}`);
+    context.fail(`Error resizing image: ${err}`);
+    return;
   }
 
   console.log(`Successfully resized ${BUCKET}/${KEY} and uploaded to ${THUMBNAIL}/${DEST_KEY}`);
